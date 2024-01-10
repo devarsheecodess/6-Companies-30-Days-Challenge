@@ -1,0 +1,46 @@
+1373. Maximum Sum BST in Binary Tree
+
+Given a binary tree root, return the maximum sum of all keys of any sub-tree which is also a Binary Search Tree (BST).
+
+Assume a BST is defined as follows:
+
+The left subtree of a node contains only nodes with keys less than the node's key.
+The right subtree of a node contains only nodes with keys greater than the node's key.
+Both the left and right subtrees must also be binary search trees.
+
+struct T {
+  bool isBST;
+  int max;
+  int min;
+  int sum;
+  T() : isBST(false) {}
+  T(bool isBST, int max, int min, int sum)
+      : isBST(isBST), max(max), min(min), sum(sum) {}
+};
+
+class Solution {
+ public:
+  int maxSumBST(TreeNode* root) {
+    int ans = 0;
+    traverse(root, ans);
+    return ans;
+  }
+
+ private:
+  T traverse(TreeNode* root, int& ans) {
+    if (root == nullptr)
+      return T(true, INT_MIN, INT_MAX, 0);
+
+    const T left = traverse(root->left, ans);
+    const T right = traverse(root->right, ans);
+
+    if (!left.isBST || !right.isBST)
+      return T();
+    if (root->val <= left.max || root->val >= right.min)
+      return T();
+
+    const int sum = root->val + left.sum + right.sum;
+    ans = max(ans, sum);
+    return T(true, max(root->val, right.max), min(root->val, left.min), sum);
+  }
+};
