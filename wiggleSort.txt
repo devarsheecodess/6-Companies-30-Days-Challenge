@@ -1,0 +1,20 @@
+class Solution {
+public:
+    void wiggleSort(vector<int>& nums) {
+        int size = nums.size();
+        priority_queue<int> queue;
+        for(int x : nums) queue.push(x);
+        int i = 1;
+        while(queue.size() && i < size){
+            nums[i] = queue.top();
+            queue.pop();
+            i = i + 2;
+        }
+        int j = 0;
+        while(queue.size() && j < size){
+            nums[j] = queue.top();
+            queue.pop();
+            j = j + 2;
+        }
+    }
+};
