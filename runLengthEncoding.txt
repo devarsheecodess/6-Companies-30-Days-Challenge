@@ -1,0 +1,27 @@
+Run Length Encoding
+
+Given a string, Your task is to  complete the function encode that returns
+the run length encoded string for the given string.
+eg if the input string is “wwwwaaadexxxxxx”,
+then the function should return “w4a3d1e1x6″.
+You are required to complete the function encode that takes only one argument
+the string which is to be encoded and returns the encoded string.
+
+string encode(string src)
+{ 
+  string res = "";
+  int len = src.length();
+  int i = 0;
+  while(i < len){
+      int count = 1;
+      res += src[i];
+      int j = i + 1;
+      while(src[i] == src[j]){
+          j++;
+          count++;
+      }
+      i = j;
+      res += to_string(count);
+  }
+  return res;
+} 
