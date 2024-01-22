@@ -1,0 +1,56 @@
+820. Short Encoding of Words
+
+A valid encoding of an array of words is any reference string s and array of indices indices such that:
+
+words.length == indices.length
+The reference string s ends with the '#' character.
+For each index indices[i], the substring of s starting from indices[i] and up to (but not including)
+the next '#' character is equal to words[i].
+Given an array of words, return the length of the shortest reference 
+string s possible of any valid encoding of words.
+
+ class trie{
+  public: 
+    vector<trie*> next;
+    trie(){
+       next.resize(26,NULL);  
+    }
+
+    int insert(string x){
+        trie* temp=this;
+        int value=-1;
+
+        for(int i=0;i<x.size();i++){
+            if(temp->next[x[i]-'a']==NULL){
+                value=x.length();
+                temp->next[x[i]-'a']=new trie;
+            }
+            temp=temp->next[x[i]-'a'];
+        }
+
+        return value+1;      
+    }
+};
+
+class Solution {
+public:
+    trie* root;
+    static bool comp(const string& a,const string& b){
+        if(a.length()>b.length()) return 1;
+        return 0;
+    }
+
+    int minimumLengthEncoding(vector<string>& words){
+        sort(words.begin(),words.end(),comp);
+        int result=0;
+        root=new trie();
+
+        for(int i=0;i<words.size();i++){
+            string rev=words[i];
+            reverse(rev.begin(),rev.end());
+            result+=root->insert(rev);
+        }
+        
+        return result;
+    }
+};
