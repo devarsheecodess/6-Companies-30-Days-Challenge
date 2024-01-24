@@ -1,0 +1,33 @@
+524. Longest Word in Dictionary through Deleting
+
+Given a string s and a string array dictionary, 
+return the longest string in the dictionary that can be formed by deleting some of the given string characters.
+If there is more than one possible result, return the longest word with the smallest lexicographical order. 
+If there is no possible result, return the empty string.
+
+class Solution {
+public:
+    bool isSubsequence(string sub, string super){
+        int i = 0 , j = 0;
+        while(i < sub.size() && j < super.size()){
+            if(sub[i]==super[j]){
+                i++;
+            }
+            j++;
+        }
+        if(i == sub.size()) return true;
+        else return false;
+    }
+
+    string findLongestWord(string s, vector<string>& dictionary) {
+        string res = "";
+        for(string& word : dictionary){
+            if(word.size() > res.size() || (word.size() == res.size() && word < res)){
+                if(isSubsequence(word, s)){
+                    res = word;
+                }
+            }
+        }
+        return res;
+    }
+};
