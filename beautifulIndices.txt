@@ -1,0 +1,46 @@
+3006. Find Beautiful Indices in the Given Array I
+
+You are given a 0-indexed string s, a string a, a string b, and an integer k.
+
+An index i is beautiful if:
+
+0 <= i <= s.length - a.length
+s[i..(i + a.length - 1)] == a
+There exists an index j such that:
+0 <= j <= s.length - b.length
+s[j..(j + b.length - 1)] == b
+|j - i| <= k
+Return the array that contains beautiful indices in sorted order from smallest to largest.
+
+class Solution {
+public:
+    vector<int> beautifulIndices(string s, string a, string b, int k) {
+        vector<int> ans, indices_a, indices_b;
+        
+        int x = s.size(), y = a.size(), z = b.size();
+        
+        for (int i = 0; i <= x - y; i++) {
+            if (s.substr(i, y) == a) {
+                indices_a.push_back(i);
+            }
+        }
+    
+        for (int j = 0; j <= x - z; j++) {
+            if (s.substr(j, z) == b) {
+                indices_b.push_back(j);
+            }
+        }
+        for (int i = 0; i < indices_a.size(); i++) {
+            for (int j = 0; j < indices_b.size(); j++) {
+                if (abs(indices_a[i] - indices_b[j]) <= k) {
+                    ans.push_back(indices_a[i]);
+                    break;
+                }
+            }
+        }
+        
+        sort(ans.begin(), ans.end());
+    
+        return ans;
+    }
+};
