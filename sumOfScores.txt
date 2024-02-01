@@ -1,0 +1,54 @@
+2223. Sum of Scores of Built Strings
+
+You are building a string s of length n one character at a time, 
+prepending each new character to the front of the string. The strings are labeled from 1 to n, 
+where the string with length i is labeled si.
+
+For example, for s = "abaca", s1 == "a", s2 == "ca", s3 == "aca", etc.
+The score of si is the length of the longest common prefix between si and sn (Note that s == sn).
+
+Given the final string s, return the sum of the score of every si.
+
+#define ll long long
+class Solution {
+public:
+    vector<ll> z_fun(string str)
+{
+   ll l=0,r=0;
+   ll len=str.size();
+   vector<ll>z(len);
+
+   for(ll i=1;i<len;i++)
+   {
+       if(i>r)
+       {
+        l=r=i;
+        while(r<len and str[r]==str[r-l])
+            r++;
+        z[i]=r-l;
+        r--;
+       }
+       else
+       {
+        ll idx=i-l;
+        if(i+z[idx]<=r)
+        {
+            z[i]=z[idx];
+        }
+        else
+        {
+            l=i;
+            while(r<len && str[r]==str[r-l])
+                r++;
+            z[i]=r-l;
+            r--;
+        }
+       }
+   }
+   return z;
+}
+    long long sumScores(string s) {
+        vector<ll>z=z_fun(s);
+        return accumulate(z.begin(),z.end(),0LL)+s.size();
+    }
+};
